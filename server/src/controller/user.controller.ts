@@ -46,19 +46,39 @@ const userController  = {
   logIn : async (req : Request<{}, {}, signInInterface>,res : Response,next : NextFunction) => {
     try{
       const {email, password} = req.body;
-        const user = await userService.loginUser(email, password);
+      const result = await userService.loginUser(email, password);
 
       res.status(200).json({
         success: true,
-         message: 'User successfully logged in',
-        data: user
+        message: 'User successfully logged in',
+        data: result
       });
 
     }catch(error){
       console.log(error);
       next(error);
     }
+  },
 
+  logOut : async (req : Request,res : Response,next : NextFunction) => {
+    try{
+      // For logout with Google Identity Platform, you can revoke tokens
+      // The client should also delete the token from their storage
+      const userId = res.locals.user?.uid;
+
+      if (userId) {
+        await userService.revokeUserTokens(userId);
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'User successfully logged out'
+      });
+
+    }catch(error){
+      console.log(error);
+      next(error);
+    }
   }
 }
 

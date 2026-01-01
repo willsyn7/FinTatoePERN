@@ -29,5 +29,5 @@ Thumbs.db
 
 # Cloud SQL Proxy executables
 server/cloud-sql-proxy
-server/cloud-sql-proxy.exe
-server/cloud_sql_proxy
+server/cloud-sql-proxy.execloud_sql_proxy
+server/

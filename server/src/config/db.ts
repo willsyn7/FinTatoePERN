@@ -5,14 +5,13 @@ dotenv.config();
 
 
 // Debug: Log what we're reading from .env
-// console.log('DB Config:', {
-//     password1 : process.env.DATABASE_PASSWORD,
-//     user: process.env.DATABASE_USER,
-//     password: process.env.DATABASE_PASSWORD ? '***' + process.env.DATABASE_PASSWORD.slice(-4) : 'undefined',
-//     database: process.env.DATABASE_NAME,
-//     host: process.env.DATABASE_HOST,
-//     port: process.env.DATABASE_PORT
-// });
+console.log('DB Config:', {
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD ? '***' + process.env.DATABASE_PASSWORD.slice(-4) : 'undefined',
+    database: process.env.DATABASE_NAME,
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT
+});
 
 const client = new Client({
     user : process.env.DATABASE_USER,

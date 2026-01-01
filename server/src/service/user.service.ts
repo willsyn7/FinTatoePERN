@@ -1,6 +1,7 @@
 import { userRepository } from "../repository/user.repository";
 import { createUserInterface } from "../interfaces/userInterface";
 import argon2 from 'argon2';
+import { authService } from './auth.service';
 
 const userService = {
   // Validate unique email
@@ -72,10 +73,21 @@ loginUser: async (email: string, password: string) => {
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user;
 
-    // Call auth service for token generation (you'll implement this)
-    // const tokens = await authService.generateTokens(userWithoutPassword);
+    // Generate JWT tokens using Google Identity Platform
+    const tokens = await authService.generateTokens({
+      userId: user.id,
+      email: user.email
+    });
 
-    return userWithoutPassword;
+    return {
+      user: userWithoutPassword,
+      tokens
+    };
+  },
+
+  // Revoke all refresh tokens for a user (logout from all devices)
+  revokeUserTokens: async (userId: string): Promise<void> => {
+    await authService.revokeRefreshTokens(userId);
   }
 }
 export { userService };

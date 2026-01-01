@@ -2,12 +2,16 @@ import express ,{Request, Response, NextFunction} from 'express';
 import { dbConnection } from './config/db';
 const port = 8080;
 import { userController } from './controller/user.controller';
+import { authMiddleware } from './middleware/auth.middleware';
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
-dbConnection();
+// Connect to database asynchronously without blocking server startup
+dbConnection().catch(err => {
+  console.error('Database connection failed:', err.message);
+});
 
 
 
@@ -17,8 +21,10 @@ app.get('/test1', (req : Request,res : Response,next : NextFunction) => {
 })
 
 
-//User Stuff
-app.post('/createUser', userController.createUser);
+//User Authentication Routes
+app.post('/auth/signup', userController.createUser);
+app.post('/auth/login', userController.logIn);
+// app.post('/auth/logout', authMiddleware.verifyToken, userController.logOut);
 
 
 app.use((req : any ,res : any) => {

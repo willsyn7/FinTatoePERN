@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start:proxy": "./cloud-sql-proxy --address 0.0.0.0 --port 5432 hybrid-lore-482706-r7:us-central1:azure1998",
+    "start:proxy": "./cloud-sql-proxy --address 0.0.0.0 --port 5433 hybrid-lore-482706-r7:us-central1:azure1998",
     "start:dev": "npm run start:proxy & npm run dev",
     "dev": "tsx watch src/server.ts"
   },
@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/argon2": "^0.14.1",
     "@types/express": "^5.0.6",
+    "@types/firebase": "^2.4.32",
     "@types/node": "^25.0.3",
     "@types/pg": "^8.16.0",
     "dotenv": "^17.2.3",
@@ -31,6 +32,8 @@
   },
   "dependencies": {
     "argon2": "^0.44.0",
+    "firebase": "^12.7.0",
+    "firebase-admin": "^13.6.0",
     "pg": "^8.16.3"
   }
 }
