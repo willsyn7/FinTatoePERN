@@ -3,6 +3,7 @@ import { dbConnection } from './config/db';
 const port = 8080;
 import { userController } from './controller/user.controller';
 import { authMiddleware } from './middleware/auth.middleware';
+import alphaVantageController from './controller/alphaVantageController';
 const app = express();
 
 app.use(express.json());
@@ -25,6 +26,12 @@ app.get('/test1', (req : Request,res : Response,next : NextFunction) => {
 app.post('/auth/signup', userController.createUser);
 app.post('/auth/login', userController.logIn);
 // app.post('/auth/logout', authMiddleware.verifyToken, userController.logOut);
+
+// Alpha Vantage Routes 
+app.get('/api/news', authMiddleware.verifyToken, alphaVantageController.queryNews);
+// app.get('/api/stock/:symbol', authMiddleware.verifyToken, alphaVantageController.getStockQuote);
+// app.get('/api/stock/:symbol/daily', authMiddleware.verifyToken, alphaVantageController.getTimeSeriesDaily);
+// app.get('/api/company/:symbol', authMiddleware.verifyToken, alphaVantageController.getCompanyOverview);
 
 
 app.use((req : any ,res : any) => {

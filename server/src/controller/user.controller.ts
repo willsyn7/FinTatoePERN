@@ -20,7 +20,7 @@ import { userService } from '../service/user.service';
 
 
 const userController  = {
-//Request <Route Paramters, ResBody, REqBody, ReqQuery>
+//Request <Route Paramters, ResBody, RErqBody, ReqQuery>
   createUser : async (req : Request<{}, {}, createUserInterface>,res : Response,next : NextFunction) => {
     try{
       const {email, password , first_Name, last_Name } = req.body;
