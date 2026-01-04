@@ -25,13 +25,15 @@ app.get('/test1', (req : Request,res : Response,next : NextFunction) => {
 //User Authentication Routes
 app.post('/auth/signup', userController.createUser);
 app.post('/auth/login', userController.logIn);
-// app.post('/auth/logout', authMiddleware.verifyToken, userController.logOut);
+app.post('/auth/test-login', userController.testLogin); // TEST ONLY - to get firesbase id
+app.post('/auth/logout', authMiddleware.verifyToken, userController.logOut);
 
-// Alpha Vantage Routes 
+
+// Alpha Vantage Routes
 app.get('/api/news', authMiddleware.verifyToken, alphaVantageController.queryNews);
-// app.get('/api/stock/:symbol', authMiddleware.verifyToken, alphaVantageController.getStockQuote);
-// app.get('/api/stock/:symbol/daily', authMiddleware.verifyToken, alphaVantageController.getTimeSeriesDaily);
-// app.get('/api/company/:symbol', authMiddleware.verifyToken, alphaVantageController.getCompanyOverview);
+app.get('/api/stock/:symbol', authMiddleware.verifyToken, alphaVantageController.getStockQuote);
+app.get('/api/company/:symbol', authMiddleware.verifyToken, alphaVantageController.getCompanyOverview);
+
 
 
 app.use((req : any ,res : any) => {

@@ -79,6 +79,58 @@ const userController  = {
       console.log(error);
       next(error);
     }
+  },
+
+  // TEST ENDPOINT - Returns ID token directly for Postman testing
+  testLogin : async (req : Request<{}, {}, signInInterface>,res : Response,next : NextFunction) => {
+    try{
+      const {email, password} = req.body;
+      const result = await userService.loginUser(email, password);
+
+      // Get the custom token
+      const customToken = result.tokens.customToken;
+
+      // Exchange custom token for ID token using Firebase REST API
+      const firebaseWebApiKey = process.env.FIREBASE_WEB_API_KEY;
+
+      if (!firebaseWebApiKey) {
+        throw new Error('FIREBASE_WEB_API_KEY not configured');
+      }
+
+      const tokenExchangeUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${firebaseWebApiKey}`;
+
+      const tokenResponse = await fetch(tokenExchangeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: customToken,
+          returnSecureToken: true,
+        }),
+      });
+
+      if (!tokenResponse.ok) {
+        throw new Error('Failed to exchange custom token for ID token');
+      }
+
+      const tokenData = await tokenResponse.json();
+
+      res.status(200).json({
+        success: true,
+        message: 'User successfully logged in (TEST MODE)',
+        data: {
+          user: result.user,
+          idToken: tokenData.idToken,
+          refreshToken: tokenData.refreshToken,
+          expiresIn: tokenData.expiresIn,
+        }
+      });
+
+    }catch(error){
+      console.log(error);
+      next(error);
+    }
   }
 }
 

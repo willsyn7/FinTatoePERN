@@ -103,6 +103,26 @@ const authService = {
       throw new Error('User not found in Firebase Auth');
     }
   },
+
+  /**
+   * Create session cookie from custom token (for testing only)
+   * This allows server-to-server authentication without Firebase client SDK
+   * Session cookies can be verified just like ID tokens
+   */
+  createSessionCookie: async (customToken: string, expiresIn: number = 3600000): Promise<string> => {
+    try {
+      // First, we need to get an ID token from the custom token
+      // Unfortunately, Admin SDK doesn't provide this directly
+      // We'll create a session cookie-like JWT manually
+
+      // Alternative: Create a custom JWT that mimics ID token structure
+      // This is for testing purposes only
+      throw new Error('Session cookie creation requires Firebase client SDK or REST API');
+    } catch (error) {
+      console.error('Error creating session cookie:', error);
+      throw new Error('Failed to create session cookie');
+    }
+  },
 };
 
 export { authService, TokenPayload, DecodedToken };
