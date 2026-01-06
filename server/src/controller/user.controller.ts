@@ -23,13 +23,14 @@ const userController  = {
 //Request <Route Paramters, ResBody, RErqBody, ReqQuery>
   createUser : async (req : Request<{}, {}, createUserInterface>,res : Response,next : NextFunction) => {
     try{
-      const {email, password , first_Name, last_Name } = req.body;
+      const {email, password , first_name, last_name, alpha_api_key } = req.body;
 
       const user = await userService.createUser({
         email,
         password,
-        first_Name,
-        last_Name
+        first_name,
+        last_name,
+        alpha_api_key
       });
 
       res.status(201).json({

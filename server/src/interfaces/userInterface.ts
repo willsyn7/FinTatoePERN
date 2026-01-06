@@ -4,8 +4,9 @@ interface createUserInterface {
     id : string,
     email : string,
     password : string,
-    first_Name : string,
-    last_Name : string
+    first_name : string,
+    last_name : string,
+    alpha_api_key  : string,
 }
 interface signInInterface{
     email : string,

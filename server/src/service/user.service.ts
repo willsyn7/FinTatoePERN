@@ -24,7 +24,7 @@ const userService = {
 
   // Create user with validation and hashing
   createUser: async (params: Omit<createUserInterface, 'id'>) => {
-    const { email, password, first_Name, last_Name } = params;
+    const { email, password, first_name, last_name, alpha_api_key } = params;
 
     // Validate unique email
         try {
@@ -44,8 +44,9 @@ const userService = {
       id,
       email,
       password: hashedPassword,
-      first_Name,
-      last_Name
+      first_name,
+      last_name,
+      alpha_api_key
     });
 
 
