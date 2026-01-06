@@ -4,6 +4,7 @@ const port = 8080;
 import { userController } from './controller/user.controller';
 import { authMiddleware } from './middleware/auth.middleware';
 import alphaVantageController from './controller/alphaVantageController';
+import oauthController from './controller/oauthController';
 const app = express();
 
 app.use(express.json());
@@ -28,6 +29,15 @@ app.post('/auth/login', userController.logIn);
 app.post('/auth/test-login', userController.testLogin); // TEST ONLY - to get firesbase id
 app.post('/auth/logout', authMiddleware.verifyToken, userController.logOut);
 
+// Google OAuth Routes
+app.get('/auth/google', oauthController.googleAuth);
+app.get('/auth/google/callback', oauthController.googleCallback);
+app.post('/auth/google/revoke', oauthController.revokeGoogleAuth);
+
+// GitHub OAuth Routes
+app.get('/auth/github', oauthController.githubAuth);
+app.get('/auth/github/callback', oauthController.githubCallback);
+app.post('/auth/github/revoke', oauthController.revokeGithubAuth);
 
 // Alpha Vantage Routes
 app.get('/api/news', authMiddleware.verifyToken, alphaVantageController.queryNews);

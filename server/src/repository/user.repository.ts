@@ -5,15 +5,15 @@ import { createUserInterface} from '../interfaces/userInterface';
 
 const userRepository = {
   createUser: async (params: createUserInterface) => {
-    const { id, email, password, first_name, last_name, alpha_api_key} = params;
+    const { id, email, password, first_name, last_name, alpha_api_key, google_id, oauth_provider} = params;
 
     const query = `
-      INSERT INTO users_table (id, email, password, first_name, last_name, alpha_api_key,created_at)
-      VALUES ($1, $2, $3, $4, $5, $6, NOW())
+      INSERT INTO users_table (id, email, password, first_name, last_name, alpha_api_key, google_id, oauth_provider, created_at)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
       RETURNING *
     `;
 
-    const values = [id, email, password, first_name, last_name, alpha_api_key];
+    const values = [id, email, password, first_name, last_name, alpha_api_key, google_id || null, oauth_provider || null];
     const result = await client.query(query, values);
 
     return result.rows[0];

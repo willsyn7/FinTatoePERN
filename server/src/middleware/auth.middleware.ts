@@ -45,31 +45,24 @@ const authMiddleware = {
     }
   },
 
-  /**
-   * Optional authentication - verify token if present, but don't require it
-   * Useful for routes that work for both authenticated and non-authenticated users
-   */
-  optionalAuth: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const authHeader = req.headers.authorization;
 
-      if (authHeader && authHeader.startsWith('Bearer ')) {
-        const idToken = authHeader.substring(7);
-        const decodedToken = await authService.verifyIdToken(idToken);
-        res.locals.user = decodedToken;
-      }
+  // optionalAuth: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  //   try {
+  //     const authHeader = req.headers.authorization;
 
-      next();
-    } catch (error) {
-      // Don't fail if token is invalid, just continue without user
-      next();
-    }
-  },
+  //     if (authHeader && authHeader.startsWith('Bearer ')) {
+  //       const idToken = authHeader.substring(7);
+  //       const decodedToken = await authService.verifyIdToken(idToken);
+  //       res.locals.user = decodedToken;
+  //     }
 
-  /**
-   * Require specific custom claims (e.g., roles, permissions)
-   * Use this after verifyToken middleware
-   */
+  //     next();
+  //   } catch (error) {
+
+  //     next();
+  //   }
+  // },
+
   requireClaim: (claimKey: string, claimValue: any) => {
     return (req: Request, res: Response, next: NextFunction): void => {
       const user = res.locals.user;
